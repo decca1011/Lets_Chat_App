@@ -31,7 +31,7 @@ async function signUp(event) {
        const errorMessage = err.response.data.error;
        if (errorMessage === 'Email already exists') {
          alert('User with this email already exists. Please use a different email.');
-       } else if (errorMessage === 'Mobile already exists') {
+       } else if (errorMessage === 'User with this detail already exists') {
          alert('User with this mobile number already exists. Please use a different mobile number.');
        }
      } else {
