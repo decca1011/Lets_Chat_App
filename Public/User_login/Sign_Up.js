@@ -27,17 +27,27 @@ async function signUp(event) {
      console.log('POST Request Successful');
      window.location.reload();
    } catch (err) {
+    console.log(err.name)
      if (err.response && err.response.data) {
        const errorMessage = err.response.data.error;
-       if (errorMessage === 'Email already exists') {
-         alert('User with this email already exists. Please use a different email.');
-       } else if (errorMessage === 'User with this detail already exists') {
-         alert('User with this mobile number already exists. Please use a different mobile number.');
+       if (errorMessage === 'Email address is already in use.') 
+       {
+        return alert('User with this email already exists. Please use a different email.');
+         
+       } 
+       else if (errorMessage ===  'Mobile number is already in use.') 
+       {
+        return alert('User with this mobile number already exists. Please use a different mobile number.');
        }
-     } else {
-       // Handle other errors here
-       console.log(`other error`)
      }
+      else {
+       // Handle other errors here
+     
+       console.log(`other error` )
+      return alert(' err check detail ');
+     }
+
+     alert(' err check detail');
    }
  }
  

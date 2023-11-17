@@ -27,15 +27,6 @@ var createUserController = async (req, res, next) => {
         const userMobileNo = req.body.mobile;
         const saltRounds = 10;
 
-        // Check if a user with the given email already exists
-        var existingUser = await User.findOne({ where: { user_email_id: userEmail } });
-
-        if (existingUser) {
-            // If a user with the same email already exists, handle accordingly
-            await t.rollback(); // Rollback the transaction
-            res.status(400).json({ error: 'User with this detail already exists' });
-            return;
-        }
 
         // Hash the user's password
         const hash = await bcrypt.hash(password, saltRounds);
@@ -70,10 +61,32 @@ var createUserController = async (req, res, next) => {
         // Rollback the transaction in case of an error
         await t.rollback();
 
-        // Log the error and send a 500 Internal Server Error response
-        console.error('Error in adding user:', err);
-        res.status(500).json({ error: 'Failed to add user' });
-    }
+if(err.name === 'SequelizeUniqueConstraintError') {
+     const field = err.errors[0].path;
+     const value = err.errors[0].value;
+let errorMessage;
+     if(field ==='user_email_id'){
+    errorMessage = 'Email address is already in use.';
+
+}
+else if (field === 'user_mobile_no') {
+    errorMessage = 'Mobile number is already in use.';
+} else {
+    errorMessage = 'Duplicate entry error.';
+}
+
+    // Send a custom response for duplicate entry
+    res.status(400).json({ error: errorMessage });
+
+        
+}
+else {
+  // Log the error and send a 500 Internal Server Error response
+  console.error('Error in adding user:', err.errors);
+  res.status(500).json({ error: 'Failed to add user' });
+}
+      
+}
 };
 
 module.exports = {

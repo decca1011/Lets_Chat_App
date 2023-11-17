@@ -33,6 +33,9 @@ const User = sequelize.define('User', {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
+        validate: {
+            isMobilePhone: true // Validate that the mobile number is in the correct format
+        },
     }
 });
 
