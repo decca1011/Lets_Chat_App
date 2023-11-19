@@ -7,5 +7,6 @@ const UserController =  require('../controller/User')
 const router = express.Router();
  
 router.post('/Data', UserController.createUserController)
+router.post('/SignIn', UserController.UserLogin)
 // router.get('/Data/:id', UserController.getUserById);
 module.exports = router;

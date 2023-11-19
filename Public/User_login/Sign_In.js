@@ -8,7 +8,7 @@ async function signIn(event) {
    const userData = { email, password };
  
    try {
-     const response = await axios.post(`${baseUrl}/post/signin`, userData);
+     const response = await axios.post(`${baseUrl}/post/SignIn`, userData);
  
      if (response.data.success) {
        alert("Login successful");
@@ -17,7 +17,7 @@ async function signIn(event) {
        const token = response.data.token;
        console.log('Message:', responseMessage);
        console.log('Token:', token);
-       window.location.href = '../expense/expense.html';
+       window.location.href = '../Profile/UserPage.html';
      } else {
        console.log(userData);
        console.log('Sign-in failed');

@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const sequelize = require('../util/database');
+const { use } = require('../router/user');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -89,6 +90,41 @@ else {
 }
 };
 
+const UserLogin = async (req, res, next) => {
+    // Destructuring email and password from the request body
+    const { email, password } = req.body;
+
+    try {
+        // Finding user by email in the database
+        const user = await User.findOne({ where: { user_email_id: email } });
+
+        if (user) {
+            // Comparing the provided password with the hashed password in the database
+            const passwordMatch = await bcrypt.compare(password, user.user_password);
+
+            if (passwordMatch) {
+                // Generating a token for successful login
+                const token = generateToken(user.id, user.username, user.user_email_id);
+
+                // Sending a success response with the generated token
+                res.status(200).json({ success: true, message: 'User Login Successful', token: token });
+            } else {
+                // Sending an error response for invalid password
+                res.status(400).json({ success: false, message: "Invalid Email or Password" });
+            }
+        } else {
+            // Sending an unauthorized response if the user is not found
+            res.status(401).json({ success: false, message: "User Not Found" });
+        }
+    } catch (err) {
+        // Logging and sending a server error response in case of an exception
+        console.log(err);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
+
 module.exports = {
-    createUserController
+    createUserController,
+    UserLogin
 };
