@@ -110,11 +110,11 @@ const UserLogin = async (req, res, next) => {
                 res.status(200).json({ success: true, message: 'User Login Successful', token: token });
             } else {
                 // Sending an error response for invalid password
-                res.status(400).json({ success: false, message: "Invalid Email or Password" });
+                res.status(401).json({ success: false, message: "User not authorized" });
             }
         } else {
             // Sending an unauthorized response if the user is not found
-            res.status(401).json({ success: false, message: "User Not Found" });
+            res.status(404).json({ success: false, message: "User Not Found" });
         }
     } catch (err) {
         // Logging and sending a server error response in case of an exception

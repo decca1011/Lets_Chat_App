@@ -31,7 +31,7 @@ app.use('/post', User_Login);
 app.use(function(req ,res, next){
     console.log('url', req.url)
 res.sendFile(path.join(__dirname, 'Public', req.url));
-})
+});
 
 // Start the server on port 3000
 sequelize.sync()
