@@ -24,11 +24,18 @@
           <ul id="messages"></ul>
           <div>
               <input type="text" id="message-input" placeholder="Type your message...">
-              <button id="send-button">Send</button>
+              <button id="send-button" onclick="sendChat(event)">Send</button>
           </div>
       </div>
   </div>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket"></script>
-<script src="Interface.js"></script>
+ <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket"></script> -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+ 
+<script>
+const baseUrl = 'http://localhost:3000'; // base URL  
+</script>
+<!-- <script src="Interface.js"></script> -->
+<script src="ShowUser.js"></script>
+<script src="userChat.js"></script>
 </body>
 </html>

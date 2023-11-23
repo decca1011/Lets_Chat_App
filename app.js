@@ -7,6 +7,7 @@ const app = express();
 
 const sequelize = require('./util/database');
 
+
 require('dotenv').config();
  
  
@@ -24,14 +25,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Import the User_Login router
 const User_Login = require('./router/user');
+const Chat_Add= require('./router/chat');
+
+const User = require('./models/user');
+const Chats= require('./models/chat');
 
 // Use the User_Login router for the '/post' route
 app.use('/post', User_Login);
+app.use('/post_chat', Chat_Add)
 
 app.use(function(req ,res, next){
     console.log('url', req.url)
 res.sendFile(path.join(__dirname, 'Public', req.url));
 });
+
+User.hasMany(Chats);
+Chats.belongsTo(User);
+
 
 // Start the server on port 3000
 sequelize.sync()

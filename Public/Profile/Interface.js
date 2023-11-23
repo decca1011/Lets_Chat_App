@@ -19,9 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to display online users
     function displayOnlineUsers() {
         usersContainer.innerHTML = "";
-        onlineUsers.forEach(user => {
+        onlineUsers.forEach(use=> {
             const li = document.createElement("li");
-            li.textContent = user.username;
+            li.textContent = use.username;
             usersContainer.appendChild(li);
         });
     }
@@ -35,6 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (message.trim() !== "") {
             // For simplicity, just display the message locally
             displayMessage(`${currentUser.username}: ${message}`);
+         
+            const messageBody = {
+                sender_id: 1,
+                message: message
+            }
+            console.log(messageBody)   
+          axios.post(`${baseUrl}/post_chat/Data`, messageBody);
             messageInput.value = "";
         }
     });

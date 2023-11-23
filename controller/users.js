@@ -104,7 +104,7 @@ const UserLogin = async (req, res, next) => {
 
             if (passwordMatch) {
                 // Generating a token for successful login
-                const token = generateToken(user.id, user.username, user.user_email_id);
+                const token = generateToken(user.user_id, user.username, user.user_email_id);
 
                 // Sending a success response with the generated token
                 res.status(200).json({ success: true, message: 'User Login Successful', token: token });
