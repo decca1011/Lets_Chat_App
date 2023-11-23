@@ -32,7 +32,7 @@ const Chats= require('./models/chat');
 
 // Use the User_Login router for the '/post' route
 app.use('/post', User_Login);
-app.use('/post_chat', Chat_Add)
+app.use('/chat', Chat_Add)
 
 app.use(function(req ,res, next){
     console.log('url', req.url)

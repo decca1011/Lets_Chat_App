@@ -13,7 +13,7 @@ const sendChat = async (event) => {
  
    try {
      if (token) {
-       await axios.post(`${baseUrl}/post_chat/Data`, messageBody, {
+       await axios.post(`${baseUrl}/chat/Data`, messageBody, {
          headers: {
            Authorization: `MyAuthHeader ${token}`
          }
@@ -29,3 +29,27 @@ const sendChat = async (event) => {
    }
  };
  
+ document.addEventListener('DOMContentLoaded',async ()=> {
+   const token = localStorage.getItem('token');
+   const chatList = document.getElementById('chat-list');
+   if (token) {
+      let response;
+     try {
+      const response = await axios.get(`${baseUrl}/chat/getMessages`, {
+         headers: {
+           Authorization: `MyAuthHeader ${token}`,
+         },
+       });
+
+       console.log(response)
+       
+     }
+     catch (err) {
+       console.error('Error getting chat list:', err);
+
+   }
+   }
+
+ } )
+
+

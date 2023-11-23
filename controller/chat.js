@@ -20,6 +20,24 @@ const addChatMessage = async (req, res) => {
   }
 };
 
+
+const  getAllChats = async (req, res , next ) => {
+  try {
+    const chats = await Chats.findAll({
+      attributes: ['user_id', 'message'], // Specify the fields you want to retrieve
+    });
+
+    // Send the ch0ats as a JSON response to the frontend
+    res.status(200).json(chats);
+
+}
+catch (error) {
+    console.error(error);
+}
+}
+
 module.exports = {
   addChatMessage,
+  getAllChats
 };
+
