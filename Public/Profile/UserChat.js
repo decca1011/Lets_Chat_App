@@ -41,7 +41,7 @@ const sendChat = async (event) => {
        });
       const { formattedChats } = response.data;
        displayChats( formattedChats);
-      //  return window.location.reload()
+ 
    
      }
      catch (err) {
@@ -67,3 +67,20 @@ const sendChat = async (event) => {
    });
  }
  
+
+ setInterval(async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.get(`${baseUrl}/chat/getMessages`, {
+      headers: {
+        Authorization: `MyAuthHeader ${token}`,
+      },
+    });
+
+    const { formattedChats} = response.data;
+    displayChats( formattedChats);
+ 
+  } catch (error) {
+    console.error('Error fetching new messages:', error);
+  }
+}, 1000); // Fetch new messages every 1 second
