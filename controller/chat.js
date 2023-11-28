@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Chats = require('../models/chat');
 const sequelize = require('../util/database');
+const Sequelize = require('sequelize')
 
 const addChatMessage = async (req, res) => {
   try {
@@ -23,13 +24,48 @@ const addChatMessage = async (req, res) => {
 
 const  getAllChats = async (req, res , next ) => {
   try {
-    const chats = await Chats.findAll({
-      attributes: ['user_id', 'message'], // Specify the fields you want to retrieve
+    const userId = req.user.user_id;
+     // Assuming you have a Chats model defined with Sequelize
+ 
+     const chats = await Chats.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['user_id', 'user_name'],
+        
+        },
+      ],
+      attributes: ['chat_id', 'ChatMessage', 'createdAt', 'updatedAt', 'UserUserId'],
     });
 
-    // Send the ch0ats as a JSON response to the frontend
-    res.status(200).json(chats);
+    // Map the Sequelize instances to plain JavaScript objects
+    const formattedChats = chats.map(chat => {
+      const { chat_id, ChatMessage, createdAt, updatedAt, User } = chat.dataValues;
+      let isCurrentUser = false
+      if(chat.UserUserId === userId) isCurrentUser = true;
+      return {
+        chat_id,
+        ChatMessage,
+        createdAt,
+        updatedAt,
+        UserUserId: User.user_id,
+        userName: User.user_name,
+        currentUser :isCurrentUser
+      };
+    });
+  // Separate current user's chats from other users
+// const currentUserChats = formattedChats.filter(chat => chat.UserUserId === userId).map(chat => ({ ...chat, isCurrentUser: true }));
 
+// const otherUsersChats = formattedChats
+// .filter(chat => chat.UserUserId !== userId)
+// .map(chat => ({ ...chat, isCurrentUser: false }));
+
+
+ 
+console.log(formattedChats )
+ 
+    // Send the sortedChats as a JSON response to the frontend
+    res.status(200).json({formattedChats});
 }
 catch (error) {
     console.error(error);

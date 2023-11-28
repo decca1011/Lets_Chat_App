@@ -30,3 +30,18 @@ body {
    padding: 10px;
    cursor: pointer;
 }
+
+/* Add styles for left and right messages */
+.left {
+   text-align: left;
+   background-color: #e0e0e0;
+   padding: 5px;
+   margin-bottom: 5px;
+}
+
+.right {
+   text-align: right;
+   background-color: #c0e0c0;
+   padding: 5px;
+   margin-bottom: 5px;
+}

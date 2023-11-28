@@ -21,6 +21,7 @@ const sendChat = async (event) => {
  
        // Clear the input field after sending the message
        document.getElementById('message-input').value = '';
+      return window.location.reload()
      }
    } catch (err) {
      // Handle errors more gracefully, show user-friendly messages
@@ -31,25 +32,38 @@ const sendChat = async (event) => {
  
  document.addEventListener('DOMContentLoaded',async ()=> {
    const token = localStorage.getItem('token');
-   const chatList = document.getElementById('chat-list');
    if (token) {
-      let response;
      try {
       const response = await axios.get(`${baseUrl}/chat/getMessages`, {
          headers: {
            Authorization: `MyAuthHeader ${token}`,
          },
        });
-
-       console.log(response)
-       
+      const { formattedChats } = response.data;
+       displayChats( formattedChats);
+      //  return window.location.reload()
+   
      }
      catch (err) {
        console.error('Error getting chat list:', err);
-
    }
    }
 
  } )
 
 
+ function displayChats(chats) {
+   const chatList = document.getElementById('messages');
+   chats.forEach(chat => {
+     const messageElement = document.createElement('li');
+     messageElement.textContent = `${chat.userName}: ${chat.ChatMessage}`;
+     if(chat.currentUser){
+      messageElement.classList.add('right');
+     }
+     else{
+      messageElement.classList.add('left');
+     }
+     chatList.appendChild(messageElement);
+   });
+ }
+ 
