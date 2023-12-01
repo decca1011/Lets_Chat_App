@@ -24,6 +24,7 @@ const addChatMessage = async (req, res) => {
 
 const  getAllChats = async (req, res , next ) => {
   try {
+   
     const userId = req.user.user_id;
      // Assuming you have a Chats model defined with Sequelize
  
@@ -53,16 +54,6 @@ const  getAllChats = async (req, res , next ) => {
         currentUser :isCurrentUser
       };
     });
-  // Separate current user's chats from other users
-// const currentUserChats = formattedChats.filter(chat => chat.UserUserId === userId).map(chat => ({ ...chat, isCurrentUser: true }));
-
-// const otherUsersChats = formattedChats
-// .filter(chat => chat.UserUserId !== userId)
-// .map(chat => ({ ...chat, isCurrentUser: false }));
-
-
- 
-console.log(formattedChats )
  
     // Send the sortedChats as a JSON response to the frontend
     res.status(200).json({formattedChats});
@@ -71,9 +62,57 @@ catch (error) {
     console.error(error);
 }
 }
+const getNewMessage = async (req, res, next) => {
+  const userId = req.user.user_id;
+  const lastChatItemId = req.params.lastChatItemId;
+  console.log(lastChatItemId, "<<>>==========>");
+  try {
+    const newMessages = await Chats.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['user_id', 'user_name'],
+        },
+
+      ],
+      
+      where: {
+        chat_id: {
+          [Sequelize.Op.gt]: lastChatItemId,
+        },
+      },attributes: ['chat_id','ChatMessage', 'createdAt', 'updatedAt', 'UserUserId']
+    });
+    // Assuming you want to format and send the newMessages as a response
+    const formattedNewMessages = newMessages.map(message => {
+      const { chat_id, ChatMessage, createdAt, updatedAt, User } = message.dataValues;
+    
+      let isCurrentUser = false;
+      if (User && User.user_id === userId) {
+        isCurrentUser = true;
+      }
+    
+      return {
+        chat_id,
+        ChatMessage,
+        createdAt,
+        updatedAt,
+        UserUserId: User ? User.user_id : null,
+        userName: User ? User.user_name : null,
+        currentUser: isCurrentUser,
+      };
+    });
+    
+    console.log(formattedNewMessages)
+    res.status(200).json({formattedNewMessages});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 module.exports = {
   addChatMessage,
-  getAllChats
+  getAllChats,
+  getNewMessage
 };
 
