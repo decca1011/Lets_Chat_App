@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <title> Lets Chat App</title>
+ <link rel="stylesheet" type="text/css" href="../Style/Style.css">
+ <link rel="stylesheet" type="text/css" href="../Style/Style_Chat.css">
+ <link rel="stylesheet"  type ="text/css"  href = "../Style/Group.css">
+</head>
+<body>
+<header>
+<h1>Lets Chat App</h1>
+<p><a href="./chat.html">Universal Chat</a></p>
+</header>
+</head>
+<body>
+   <main>
+      <section>
+      <div id ="group" class="group-Creation"> 
+          <h5 class="head">  Create Groups :</h5>
+          <button class="create-grp" id="openCreateGrp">Create New Group </button>
+          <div id="groups" class="groups">
+         <h5 class="head"> Get Groups :</h5>
+          <button onclick="callGrp(event)" class="diffGrps" id="some">Get Your Group</button>
+          <span id="error"></span>
+          </div>
+      </div>
+      </section>
+    <section>
+        <div id="chat-container" style="display: none;">
+            <div id="user-list">
+                <h3>Welcome To : =>
+                    <span id="grpName"></span>
+                </h3>
+                <ul id="users"></ul>
+            </div>
+            <div id="chat-content">
+                <ul id="messages"></ul>
+                <div>
+                    <input type="text" id="messageInput" placeholder="Type your message...">
+                    <button id="send-button" onclick="sendChat(event)">Send</button>
+                </div>
+            </div>
+        </div>
+    </section>
+      <section>
+      <div class="add-grp-section" id="popup" style="display: none;">
+        <form onsubmit="SaveGrpMembers(event)" id="container">
+            <a style="cursor: pointer;" id="closeCreateGrp" class="close">X (CLOSE)</a>
+            <div class="form-group">
+                <label for="grp_name">Group Name:</label>
+                <input type="text" name="grp_name" id="grp_name" placeholder="Enter group name">
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="showUserList()">Add People</button>
+            </div>
+            <div id="add-people" class="add-people">
+                <!-- User list will be displayed here -->
+            </div>
+            <button type="submit" class="create">Create</button>
+        </form>
+    </div>
+</section>
+     </main>   
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+const baseUrl = 'http://localhost:3000'; // base URL  
+</script>
+<script src ="createGroup.js"></script>
+<script src="showGroup.js"></script>
+<script src="sendGroupChat.js"></script>
+</body>
+</html>

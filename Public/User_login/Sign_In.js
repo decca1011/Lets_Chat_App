@@ -17,7 +17,7 @@ async function signIn(event) {
        const token = response.data.token;
        console.log('Message:', responseMessage);
        console.log('Token:', token);
-       window.location.href = '../Profile/UserPage.html';
+       window.location.href = '../Profile/chat.html';
      } else {
        console.log(userData);
        console.log('Sign-in failed');

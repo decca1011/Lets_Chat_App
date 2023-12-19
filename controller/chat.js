@@ -6,14 +6,11 @@ const Sequelize = require('sequelize')
 const addChatMessage = async (req, res) => {
   try {
     const id = req.user.user_id
-    console.log(id)
-    const chatMessage = req.body.body; // Fixed variable name (ChatMessage to chatMessage)
-// console.log(id ,req.body)
+    const chatMessage = req.body.body; 
     await Chats.create({
       ChatMessage: chatMessage,
       UserUserId: id,
     });
-
     res.status(201).json({ message: 'Chat message added successfully' });
   } catch (error) {
     console.error(error);
@@ -22,13 +19,11 @@ const addChatMessage = async (req, res) => {
 };
 
 
-const  getAllChats = async (req, res , next ) => {
+const  getAllChats = async (req, res ) => {
   try {
-   
-    const userId = req.user.user_id;
+       const userId = req.user.user_id;
      // Assuming you have a Chats model defined with Sequelize
- 
-     const chats = await Chats.findAll({
+      const chats = await Chats.findAll({
       include: [
         {
           model: User,
@@ -65,7 +60,7 @@ catch (error) {
 const getNewMessage = async (req, res, next) => {
   const userId = req.user.user_id;
   const lastChatItemId = req.params.lastChatItemId;
-  console.log(lastChatItemId, "<<>>==========>");
+ 
   try {
     const newMessages = await Chats.findAll({
       include: [
@@ -102,7 +97,6 @@ const getNewMessage = async (req, res, next) => {
       };
     });
     
-    console.log(formattedNewMessages)
     res.status(200).json({formattedNewMessages});
   } catch (error) {
     console.error(error);

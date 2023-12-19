@@ -4,13 +4,9 @@ const bodyParser = require('body-parser');
 const path = require('path')
 const app = express();
 
-
 const sequelize = require('./util/database');
 
-
 require('dotenv').config();
- 
- 
 // Enable CORS for all routes
 app.use(cors({
     origin: "http://localhost:3000",
@@ -26,21 +22,33 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Import the User_Login router
 const User_Login = require('./router/user');
 const Chat_Add= require('./router/chat');
+const Group_List= require('./router/group');
 
-const User = require('./models/user');
-const Chats= require('./models/chat');
+const user  = require('./models/user');
+const chat = require('./models/chat');
+const groupDetail = require('./models/groupDetail');
+const groupMember = require('./models/groupMember');
 
 // Use the User_Login router for the '/post' route
 app.use('/post', User_Login);
-app.use('/chat', Chat_Add)
+app.use('/chat', Chat_Add);
+app.use('/group', Group_List);
 
-app.use(function(req ,res, next){
-    console.log('url', req.url)
+app.use(function(req ,res){
+console.log(req.url)
 res.sendFile(path.join(__dirname, 'Public', req.url));
 });
+//user has many chat where chat belong to one user
+user.hasMany(chat);
+chat.belongsTo(user);
 
-User.hasMany(Chats);
-Chats.belongsTo(User);
+//one user hve many group & group contain many group member. 
+user.belongsToMany(groupDetail, { through: groupMember });
+groupDetail.belongsToMany(user, { through: groupMember});
+
+// one message belong to on particular group and one group can have multiple message.
+groupDetail.hasMany(chat);
+chat.belongsTo(groupDetail);
 
 
 // Start the server on port 3000

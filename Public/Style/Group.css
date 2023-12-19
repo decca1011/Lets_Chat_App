@@ -1,0 +1,74 @@
+.add-grp-section {
+   position: fixed;
+   left: 50px;
+   top: 200px;
+   bottom: 100px;
+   width: 300px; /* Adjust the width as needed */
+   background-color: #34d125; /* Optional background color */
+   padding: 10px;
+   box-sizing: border-box;
+
+}
+
+ .group-Creation {
+position: fixed;
+   left: 50px;
+   top: 200px;
+   bottom: 100px;
+   width: 300px; /* Adjust the width as needed */
+   padding: 40px;
+   background-color: #12d0da8d;
+   box-sizing: border-box;
+}
+
+#grp_name {
+   width: 80%;
+   padding: 10px;
+   margin-right: 10px;
+}
+
+#chat-container {
+   max-width: 600px;
+   margin: 50px auto;
+   background-color: whitesmoke;
+   color: red;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   border-radius: 5px;
+   padding: 40px;
+}
+
+#messages-container {
+   border-right: 1px solid white; /* Add this line for the right border */
+   padding-right: 10px; /* Adjust padding as needed */
+}
+
+#group-box {
+   display: flex;
+   align-items: center;
+}
+
+#messageInput {
+   width: 80%;
+   padding: 10px;
+   margin-right: 10px;
+}
+
+#send-button {
+   padding: 10px;
+   cursor: pointer;
+}
+
+/* Add styles for left and right messages */
+.left {
+   text-align: left;
+   background-color: #e0e0e0;
+   padding: 5px;
+   margin-bottom: 5px;
+}
+
+.right {
+   text-align: right;
+   background-color: #c0e0c0;
+   padding: 5px;
+   margin-bottom: 5px;
+}

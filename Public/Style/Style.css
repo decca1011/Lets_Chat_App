@@ -44,14 +44,14 @@ main {
 a, h2 {
    font-size: 15px;
    margin-bottom: 10px;
-   color: #0033ff;
+   color: #f5f509;
 }
 
 /* Hover effect for links */
 a:hover {
    font-size: 20px;
    margin-bottom: 20px;
-   color: #1bd93b;
+   color: #d91b1b;
 }
 
 /* Form group styles */
