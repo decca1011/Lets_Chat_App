@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const  fs = require('fs')
 const bodyParser = require('body-parser');
 const compression = require('compression');
+const morgan = require('morgan');
 
-const path = require('path')
 const app = express();
 
 const sequelize = require('./util/database');
@@ -54,6 +56,11 @@ chat.belongsTo(groupDetail);
 
 // Use compression middleware
 app.use(compression());
+const accessLogStream = fs.createWriteStream(path.join(__dirname,'acess.log'),{flag: 'a'})
+
+//app.use(helmet());
+
+app.use(morgan('combined', {stream: accessLogStream}) );
 
 // Start the server on port 3000
 sequelize.sync()
