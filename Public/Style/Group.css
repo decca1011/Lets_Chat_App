@@ -27,7 +27,7 @@ position: fixed;
    margin-right: 10px;
 }
 
-#chat-container {
+/* #chat-container {
    max-width: 600px;
    margin: 50px auto;
    background-color: whitesmoke;
@@ -35,16 +35,80 @@ position: fixed;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
    border-radius: 5px;
    padding: 40px;
+} */
+
+ /* General styling for the chat container */
+.chat-container {
+   max-width: 600px;
+   margin: 20px auto;
+   background-color: whitesmoke;
+   color: #333;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   border-radius: 5px;
+   padding: 20px;
+   position: fixed;
+   bottom: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   z-index: 1;
 }
 
-#messages-container {
-   border-right: 1px solid white; /* Add this line for the right border */
-   padding-right: 10px; /* Adjust padding as needed */
+/* Styling for the group header */
+.group-header {
+   display: flex;
+   margin-left: 10px;
+   border-bottom: 2px solid #ccc; /* Add a border at the bottom of the group header */
+   padding-bottom: 10px; /* Add padding for spacing */
 }
 
-#group-box {
+.group-header h3 {
+   margin: 0;
+}
+
+.button-container {
    display: flex;
    align-items: center;
+   margin-left: 30px;
+}
+
+.button-container button {
+   width: 100px;
+   margin-right: 20px;
+}
+
+/* Styling for the admin form */
+.admin-form {
+   display: flex;
+   width: 400px;
+   border-bottom: 10px solid #ccc; /* Add a border at the bottom of the admin form */
+   padding-bottom: 10px; /* Add padding for spacing */
+   margin-bottom: 10px; /* Add margin at the bottom of the admin form */
+}
+
+.add-people {
+   margin-top: 10px;
+   width: 300px;
+   /* Add other styles for add-people if needed */
+}
+ 
+/* Styling for the message part */
+#user-list,
+#chat-content {
+   margin-left: 20px;
+}
+
+#messages {
+   list-style: none;
+   padding: 0;
+   border-top: 2px solid #ccc; /* Add a border at the top of the messages */
+   padding-top: 10px; /* Add padding for spacing */
+   margin-top: 10px; /* Add margin at the top of the messages */
+}
+
+.message-input {
+   display: flex;
+   align-items: center;
+   margin-top: 10px;
 }
 
 #messageInput {
@@ -54,21 +118,13 @@ position: fixed;
 }
 
 #send-button {
-   padding: 10px;
+   background-color: #007bff;
+   color: white;
+   border: none;
    cursor: pointer;
+   padding: 10px;
 }
 
-/* Add styles for left and right messages */
-.left {
-   text-align: left;
-   background-color: #e0e0e0;
-   padding: 5px;
-   margin-bottom: 5px;
-}
-
-.right {
-   text-align: right;
-   background-color: #c0e0c0;
-   padding: 5px;
-   margin-bottom: 5px;
+#send-button:hover {
+   background-color: #0056b3;
 }

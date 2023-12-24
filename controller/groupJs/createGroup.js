@@ -1,7 +1,7 @@
-const User = require('../models/user');
-const groupDetail = require('../models/groupDetail');
-const groupMember = require('../models/groupMember')
-const sequelize = require('../util/database');
+const User = require('../../models/user');
+const groupDetail = require('../../models/groupDetail');
+const groupMember = require('../../models/groupMember')
+const sequelize = require('../../util/database');
 const Sequelize = require('sequelize');
 
  // createGroup function

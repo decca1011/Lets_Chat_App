@@ -25,7 +25,7 @@ var groups = document.getElementById('groups')
                groupId: group.groupId,
                groupName: group.groupName
              };
-             localStorage.removeItem('grpMessage')
+             localStorage.removeItem('currentGroupDetail')
              localStorage.setItem('currentGroupDetail', JSON.stringify(currentGroupDetail));
              
             fetchGroup(event,group);
@@ -123,9 +123,11 @@ function displayChats(chats) {
       // Function to periodically check for new messages
       const checkForNewMessages = async () => {
        const token = localStorage.getItem('token');
-       const chatString = localStorage.getItem('message');
+       const chatString = localStorage.getItem('grpMessage');
        const chatArray = JSON.parse(chatString);
        const  groupId = JSON.parse(localStorage.getItem('currentGroupDetail')).groupId
+       const lastChatItemId = chatArray[chatArray.length - 1].chat_id;
+
        // Check if the user is signed in
        if (!token) {
           return alert('Error: Please sign in again');
@@ -134,7 +136,7 @@ function displayChats(chats) {
        if (chatArray && chatArray.length > 0) {
      
          try {
-            const lastChatItemId = chatArray[chatArray.length - 1].chat_id;
+           
             const response = await axios.get(`${baseUrl}/group/GroupDetail/get-groups/newchat/${groupId}/${lastChatItemId}`, {
                headers: {
                   Authorization: `MyAuthHeader ${token}`,
@@ -150,7 +152,7 @@ console.log(formattedNewMessages)
                localStorage.setItem('grpMessage', JSON.stringify(updatedChats));
              
                // Display new messages
-              // displayChats(formattedNewMessages);
+              displayChats(formattedNewMessages);
              }
  
          } catch (err) {
@@ -161,4 +163,4 @@ console.log(formattedNewMessages)
     }
    
      // Set up an interval to check for new messages every 5 seconds (adjust as needed)
-  const messageCheckInterval = setInterval(checkForNewMessages, 5000);
+  //const messageCheckInterval = setInterval(checkForNewMessages, 5000);

@@ -21,10 +21,8 @@ console.log('cccc')
    const groupNameInput = document.getElementById('grp_name').value.trim();
    const selectedUserCheckboxes = document.querySelectorAll('input[name="selectedUsers"]:checked');
   const selectedUserIds = Array.from(selectedUserCheckboxes).map((checkbox) => checkbox.value);
- 
 
   if (groupNameInput === '' || selectedUserIds.length === 0) return;
-
 
    const GroupDetailBody = {
       'name':  groupNameInput,

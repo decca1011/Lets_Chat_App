@@ -3,8 +3,7 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const sequelize = require('../util/database');
-const { use } = require('../router/user');
-
+ 
 // Load environment variables from .env file
 dotenv.config();
 

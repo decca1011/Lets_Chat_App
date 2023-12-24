@@ -1,3 +1,4 @@
+
 body {
    font-family: Arial, sans-serif;
    margin: 0;
@@ -5,7 +6,6 @@ body {
    background-color: #ced4d9;
 }
 
- 
 #chat-container {
    width: 1000px;
    margin: 50px auto 50px 400px; /* Adjust the right margin as needed */
@@ -21,7 +21,7 @@ body {
    margin: 0;
 }
 
-#message-input {
+#messageInput {
    width: 80%;
    padding: 10px;
    margin-right: 10px;
@@ -32,17 +32,19 @@ body {
    cursor: pointer;
 }
 
-/* Add styles for left and right messages */
-.left {
+/* Directly target the left and right classes */
+#messages li.left {
    text-align: left;
    background-color: #e0e0e0;
    padding: 5px;
    margin-bottom: 5px;
+   color: blue; /* Set text color to blue */
 }
 
-.right {
+#messages li.right {
    text-align: right;
    background-color: #c0e0c0;
    padding: 5px;
    margin-bottom: 5px;
+   color: black; /* Set text color to black */
 }

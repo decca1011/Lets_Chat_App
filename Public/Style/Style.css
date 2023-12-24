@@ -42,9 +42,9 @@ main {
 
 /* Common styles for links and headings */
 a, h2 {
-   font-size: 15px;
-   margin-bottom: 10px;
-   color: #f5f509;
+   font-size: 20px;
+   margin-bottom: 16px;
+   color: #3009f5;
 }
 
 /* Hover effect for links */

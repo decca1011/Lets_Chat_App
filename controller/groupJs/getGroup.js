@@ -1,7 +1,7 @@
-const User = require('../models/user');
-const groupDetail = require('../models/groupDetail');
-const groupMember = require('../models/groupMember');
-const groupMessages = require('../models/chat');
+const User = require('../../models/user');
+const groupDetail = require('../../models/groupDetail');
+const groupMember = require('../../models/groupMember');
+const groupMessages = require('../../models/chat');
 const Sequelize = require('sequelize');
 
 const getGroup = async (req, res) => {
@@ -122,9 +122,15 @@ const getNewMessage = async (req, res, next) => {
   const lastChatItemId = req.params.lastChatItemId;
   const groupId = req.params.groupId;
  
+  console.log(lastChatItemId , userId ,groupId)
   try {
     const newMessages = await groupMessages.findAll({
-      where: { GroupDetailGroupId: groupId },
+      where: {
+        GroupDetailGroupId: groupId,
+        chat_id: {
+          [Sequelize.Op.gt]: lastChatItemId,
+        },
+      },
       include: [
         {
           model: User,
@@ -132,13 +138,10 @@ const getNewMessage = async (req, res, next) => {
         },
 
       ],
-      
-      where: {
-        chat_id: {
-          [Sequelize.Op.gt]: lastChatItemId,
-        },
-      },attributes: ['chat_id','ChatMessage', 'createdAt', 'updatedAt', 'UserUserId']
+      attributes: ['chat_id','ChatMessage', 'createdAt', 'updatedAt', 'UserUserId']
     });
+
+    console.log(newMessages)
     // Assuming you want to format and send the newMessages as a response
     const formattedNewMessages = newMessages.map(message => {
       const { chat_id, ChatMessage, createdAt, updatedAt, User } = message.dataValues;
@@ -165,8 +168,6 @@ const getNewMessage = async (req, res, next) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-
-
 
 module.exports ={
    getGroup,

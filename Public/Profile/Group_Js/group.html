@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Application</title>
     <title> Lets Chat App</title>
- <link rel="stylesheet" type="text/css" href="../Style/Style.css">
- <link rel="stylesheet" type="text/css" href="../Style/Style_Chat.css">
- <link rel="stylesheet"  type ="text/css"  href = "../Style/Group.css">
+ <link rel="stylesheet" type="text/css" href="../../Style/Style.css">
+ <link rel="stylesheet" type="text/css" href="../../Style/Style_Chat.css">
+ <link rel="stylesheet"  type ="text/css"  href = "../../Style/Group.css">
 </head>
 <body>
 <header>
 <h1>Lets Chat App</h1>
-<p><a href="./chat.html">Universal Chat</a></p>
+<p><a href="../simpleChat_js/chat.html">GO to Universal Chat Page</a></p>
 </header>
 </head>
 <body>
@@ -29,21 +29,39 @@
       </div>
       </section>
     <section>
-        <div id="chat-container" style="display: none;">
-            <div id="user-list">
-                <h3>Welcome To : =>
+        <div id="chat-container" class="chat-container" style="display: none;">
+            <div class="group-header">
+                <h3>Welcome To:
                     <span id="grpName"></span>
                 </h3>
+                <div id = "forAdmin" class="button-container">
+                    <button id="addmember" value="addmember">Add User</button>
+                    <button id="addAdmin" value="Make Admin">Add Admin</button>
+                    <button id="removeGroupUser" value="Remove User">Remove User</button>
+                </div>
+            </div>
+            <form >
+                <div id="admin-form" class="admin-form" style="display: none; width: 100px;">
+                    <div id="admincontrol" class="add-people"> <!-- User list will be displayed here -->  </div>
+                    <div class="create-button">
+                        <button id='makeMemberAdmin' type="submit" class="create" style="display: none;">makeAdmin</button>
+                        <button id='addMemberInGroup' type="submit" class="create" style="display: none;">add user</button>
+                        <button id='removeMember' type="submit" class="create" style="display: none;">remove user</button>
+                    </div>
+                </div>
+            </form>
+            <div id="user-list">
                 <ul id="users"></ul>
             </div>
             <div id="chat-content">
                 <ul id="messages"></ul>
-                <div>
+                <div class="message-input">
                     <input type="text" id="messageInput" placeholder="Type your message...">
                     <button id="send-button" onclick="sendChat(event)">Send</button>
                 </div>
             </div>
         </div>
+        
     </section>
       <section>
       <div class="add-grp-section" id="popup" style="display: none;">
@@ -70,6 +88,7 @@ const baseUrl = 'http://localhost:3000'; // base URL
 </script>
 <script src ="createGroup.js"></script>
 <script src="showGroup.js"></script>
+<script src="admin.js"></script>
 <script src="sendGroupChat.js"></script>
 </body>
 </html>
