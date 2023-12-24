@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const compression = require('compression');
+
 const path = require('path')
 const app = express();
 
@@ -50,6 +52,8 @@ groupDetail.belongsToMany(user, { through: groupMember});
 groupDetail.hasMany(chat);
 chat.belongsTo(groupDetail);
 
+// Use compression middleware
+app.use(compression());
 
 // Start the server on port 3000
 sequelize.sync()
