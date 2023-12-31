@@ -1,4 +1,4 @@
- 
+const socket = io('http://localhost:3000'); 
 
 // Function to handle user sign-in
 async function signIn(event) {
@@ -17,7 +17,13 @@ async function signIn(event) {
        const token = response.data.token;
        console.log('Message:', responseMessage);
        console.log('Token:', token);
+
+      
+            // Emit a custom event when the user joins
+       socket.emit('user-join', { user: email, token });
+
        window.location.href = '../Profile/simpleChat_js/chat.html';
+
      } else {
        console.log(userData);
        console.log('Sign-in failed');

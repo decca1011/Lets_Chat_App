@@ -7,6 +7,12 @@
     <title> Lets Chat App</title>
  <link rel="stylesheet" type="text/css" href="../../Style/Style.css">
  <link rel="stylesheet" type="text/css" href="../../Style/Style_Chat.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+ <script>
+ const baseUrl = 'http://localhost:3000'; // base URL  
+ </script> 
+
 </head>
 <body>
 <header>
@@ -29,11 +35,9 @@
           </div>
       </div>
   </div>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<script>
-const baseUrl = 'http://localhost:3000'; // base URL  
-</script>
-<script src="userChat.js"></script>
-<script src="showChat.js"></script>
+
+ <!-- <script src="userChat.js"></script> -->
+<script src="showChat.js"></script> 
+<script src="socket.js"></script>
 </body>
 </html>

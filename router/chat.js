@@ -8,8 +8,8 @@ const ChatController =  require('../controller/chat.js');
 
 router.post('/Data', Authenticated , ChatController.addChatMessage);
 
-
 router.get('/getMessages', Authenticated , ChatController.getAllChats);
+
 router.get('/:lastChatItemId',Authenticated , ChatController.getNewMessage);
 
  
