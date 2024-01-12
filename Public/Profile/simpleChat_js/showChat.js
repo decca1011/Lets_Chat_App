@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', async () => {
    const token = localStorage.getItem('token');
   const chatString = localStorage.getItem('message');
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
          const response = await axios.get(`${baseUrl}/chat/getMessages`, {headers: { Authorization: `MyAuthHeader ${token}`,}, });
 
          const { formattedChats } = response.data;
+         console.log(formattedChats)
 
           localStorage.setItem('message', JSON.stringify(formattedChats));   // Update local storage with new messages
 
@@ -47,21 +50,29 @@ document.addEventListener('DOMContentLoaded', async () => {
    }
   });
 
-// Function to display chat messages in the UI
+ 
 function displayChats(chats) {
-  const chatList = document.getElementById('messages');
+   const chatList = document.getElementById('messages');
 
-  chats.forEach(chat => {
-     const messageElement = document.createElement('li');
-           messageElement.textContent = `${chat.userName}: ${chat.ChatMessage}`;
+   chats.forEach(chat => {
+       const messageElement = document.createElement('li');
+       messageElement.textContent = `${chat.userName}: ${chat.ChatMessage}`;
 
-     if (chat.currentUser)   messageElement.classList.add('right');      // Add styling based on whether the message belongs to the current user
-    
-     else  messageElement.classList.add('left');
+       if (chat.imageUrl) {
+           // If imageUrl is not null, create an image element and append it
+           const imageElement = document.createElement('img');
+           imageElement.src = chat.imageUrl;
+           messageElement.appendChild(imageElement);
+       }
 
-     chatList.appendChild(messageElement);      
-   
-  });
+       if (chat.currentUser) {
+           messageElement.classList.add('right');
+       } else {
+           messageElement.classList.add('left');
+       }
+
+       chatList.appendChild(messageElement);
+   });
 }
 
      // Function to periodically check for new messages
@@ -94,7 +105,11 @@ function displayChats(chats) {
       }
         
    }
+   socket.on('receive-file', async (data) => {
 
+      console.log(data)
+    checkForNewMessages()
+  });
  
     // Set up an interval to check for new messages every 5 seconds (adjust as needed)
   //const messageCheckInterval = setInterval(checkForNewMessages, 1000);

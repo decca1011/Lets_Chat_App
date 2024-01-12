@@ -5,11 +5,17 @@ const  fs = require('fs')
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const morgan = require('morgan');
-const app = express();  
-const io = require('socket.io')(app.listen(3000), {
-    cors: true
-}); 
+const app = express(); 
+const formidable = require('formidable');
+const multer = require('multer');
+const sharp = require('sharp');
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage });
 
+
+const io = require('socket.io')(app.listen(3000), { cors: true}); 
+require('dotenv').config();
+ 
 app.use(cors({
     origin: "http://localhost:3000", // Allowed origin
     origin: "*", // Allowed origin
@@ -17,13 +23,10 @@ app.use(cors({
     credentials: true // Whether the request can include user credentials like cookies, authorization headers, or TLS client certificates.
 }));
 
-const sequelize = require('./util/database');
-
-require('dotenv').config();
- 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+const sequelize = require('./util/database');
 // Import the User_Login router
 const User_Login = require('./router/user');
 const Chat_Add= require('./router/chat');
@@ -33,6 +36,7 @@ const user  = require('./models/user');
 const chat = require('./models/chat');
 const groupDetail = require('./models/groupDetail');
 const groupMember = require('./models/groupMember');
+ 
 
 // Use the User_Login router for the '/post' route
 app.use('/post', User_Login);
@@ -51,19 +55,26 @@ groupDetail.belongsToMany(user, { through: groupMember});
 groupDetail.hasMany(chat);
 chat.belongsTo(groupDetail);
 
+ //Set storage engine
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'uploads/');
+//     },
+//     filename: function (req, file, cb) {
+//         // Change the filename to include the original file extension
+//         const ext = path.extname(file.originalname);
+//         cb(null, `${file.fieldname}-${Date.now()}${ext}`);
+//     }
+// });
+ 
+
 // Use compression middleware
 app.use(compression());
 const accessLogStream = fs.createWriteStream(path.join(__dirname,'acess.log'),{flag: 'a'})
-
 //app.use(helmet());
-
 app.use(morgan('combined', {stream: accessLogStream}) );
 
-app.use(function(req ,res){
-    console.log(req.url)
-    res.sendFile(path.join(__dirname, 'Public', req.url));
-    
-     });
+app.use(function(req ,res){res.sendFile(path.join(__dirname, 'Public', req.url)); });
 
 // Start the server on port 3000
 sequelize.sync()
@@ -88,9 +99,16 @@ io.on('connection', socket => {
         console.log("ssss====>" ,data)
         io.emit('receive-message', data);
     });
-    socket.on('send-file', (data) => {
-        io.emit('receive-file', data);
+ 
+    socket.on('send-image',async  (data) => {
+       
+        const buffer = await sharp(file.buffer).resize({ height: 1920, width: 1080, fit: 'contain' }).toBuffer();
+     
+        io.emit('image-received', { user, type: imageData.type });
     });
+
+   
+
     socket.on('newMember', (data => {
         io.emit('addNewUser', data);
     }))

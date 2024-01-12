@@ -9,6 +9,8 @@ const userChat = sequelize.define('Chat', {
     primaryKey: true,
   },
   ChatMessage: Sequelize.STRING,
+  caption:Sequelize.STRING,
+  imageName: Sequelize.STRING,
 });
 
 module.exports = userChat

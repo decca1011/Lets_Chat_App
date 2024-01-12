@@ -1,4 +1,3 @@
-
 body {
    font-family: Arial, sans-serif;
    margin: 0;
@@ -8,11 +7,11 @@ body {
 
 #chat-container {
    width: 1000px;
-   margin: 50px auto 50px 400px; /* Adjust the right margin as needed */
-   background-color: #fff;
+   margin: 50px auto;
    padding: 20px;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
    border-radius: 5px;
+   background-color: #fff;
 }
 
 #messages {
@@ -33,18 +32,30 @@ body {
 }
 
 /* Directly target the left and right classes */
+#messages li {
+   padding: 5px;
+   margin-bottom: 5px;
+}
+
 #messages li.left {
    text-align: left;
    background-color: #e0e0e0;
-   padding: 5px;
-   margin-bottom: 5px;
    color: blue; /* Set text color to blue */
 }
 
 #messages li.right {
    text-align: right;
    background-color: #c0e0c0;
-   padding: 5px;
-   margin-bottom: 5px;
    color: black; /* Set text color to black */
+}
+#messages li img {
+   max-width: 10%; /* Adjust this value based on your preference */
+   height: 30%;    /* Maintain aspect ratio */
+}
+
+/* Add this to your CSS file */
+.chat-image {
+   max-width: 100%;
+   max-height: 200px; /* Adjust the max height as needed */
+   margin-top: 5px;
 }

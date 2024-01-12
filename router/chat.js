@@ -13,5 +13,8 @@ router.get('/getMessages', Authenticated , ChatController.getAllChats);
 router.get('/:lastChatItemId',Authenticated , ChatController.getNewMessage);
 
  
+router.post('/upload/file', Authenticated,ChatController.uploadFiles)
+
+ 
 
 module.exports = router;
