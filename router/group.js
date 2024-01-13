@@ -17,6 +17,11 @@ router.get('/GroupDetail/get-groups/chat/:groupId', Authenticated ,showGroup.get
 router.get('/GroupDetail/get-groups/newchat/:groupId/:lastChatItemId', Authenticated ,showGroup.getNewMessage);  //search for new message 
 router.post('/GroupDetail/post-groups/chat/', Authenticated ,showGroup.addChatMessage); // add message to chat
 
+
+router.post('/upload/file/:groupId', Authenticated,showGroup.uploadFiles)
+
+
+
 //Superpowers of the Admin
 router.get('/fetchforaddMemberInGroup/:groupId', Authenticated, groupAdmin.showUserListforAdminToadd); // show user list other than current  group member 
 router.post('/addMemberInGroup/:groupId', Authenticated, groupAdmin.addMemberInGroup); // add the selected user to group

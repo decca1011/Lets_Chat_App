@@ -1,5 +1,9 @@
 const getGroupButton = document.getElementById("some");
+ 
+
 const chatContainer = document.getElementById('chat-container')
+// Scroll to the bottom
+chatContainer.scrollTop = chatContainer.scrollHeight;
   const callGrp = async (event) => {
    event.preventDefault();
    try {
@@ -78,6 +82,8 @@ var groups = document.getElementById('groups')
  
        // Display new messages
        displayChats(formattedChats);
+     // Scroll to the bottom after displaying messages
+     scrollChatToBottom();
      } catch (error) {
        console.log('Error getting chat list:', error);
      }
@@ -105,62 +111,83 @@ var groups = document.getElementById('groups')
 
  // Function to display chat messages in the UI
 function displayChats(chats) {
-   const chatList = document.getElementById('messages');
-   chats.forEach(chat => {
-      const messageElement = document.createElement('li');
-      messageElement.textContent = `${chat.userName}: ${chat.ChatMessage}`;
-      // Add styling based on whether the message belongs to the current user
-      if (chat.currentUser) {
-         messageElement.classList.add('right');
-      } else {
-         messageElement.classList.add('left');
-      }
-      // Append the message element to the chat list
-      chatList.appendChild(messageElement);
-   });
- }
-    
-      // Function to periodically check for new messages
-      const checkForNewMessages = async () => {
-       const token = localStorage.getItem('token');
-       const chatString = localStorage.getItem('grpMessage');
-       const chatArray = JSON.parse(chatString);
-       const  groupId = JSON.parse(localStorage.getItem('currentGroupDetail')).groupId
-       const lastChatItemId = chatArray[chatArray.length - 1].chat_id;
+  const chatList = document.getElementById('messages');
 
-       // Check if the user is signed in
-       if (!token) {
-          return alert('Error: Please sign in again');
-       }
-     //   console.log(chatArray , chatString ,'=============')
-       if (chatArray && chatArray.length > 0) {
-     
-         try {
-           
-            const response = await axios.get(`${baseUrl}/group/GroupDetail/get-groups/newchat/${groupId}/${lastChatItemId}`, {
-               headers: {
-                  Authorization: `MyAuthHeader ${token}`,
-               },
-            });
-            const { formattedNewMessages } = response.data;
-            // Update local storage with new messages
-              // Add new messages to the existing array
-console.log(formattedNewMessages)
-              if (formattedNewMessages.length > 0) {
-               // Update local storage with new messages
-               const updatedChats = [...chatArray, ...formattedNewMessages];
-               localStorage.setItem('grpMessage', JSON.stringify(updatedChats));
-             
-               // Display new messages
-              displayChats(formattedNewMessages);
-             }
- 
-         } catch (err) {
-            console.log('Error getting chat list:', err);
-         }
-       }
-         
+  chats.forEach(chat => {
+    const messageElement = document.createElement('li');
+    messageElement.textContent = `${chat.userName}: ${chat.ChatMessage}`;
+
+    if (chat.imageUrl) {
+      const imageElement = document.createElement('img');
+      imageElement.src = chat.imageUrl;
+      messageElement.appendChild(imageElement);
     }
+
+    if (chat.currentUser) {
+      messageElement.classList.add('right');
+    } else {
+      messageElement.classList.add('left');
+    }
+
+    chatList.appendChild(messageElement);
+  });
+
+  // Ensure the last message is visible by scrolling into view
+  const lastMessage = chatList.lastChild;
+  if (lastMessage) {
+    lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+  }
+}
+
+
+// Call this function after fetching and displaying new messages
+function scrollToBottom() {
+  const chatContainer = document.getElementById('chat-content');
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+    
+//       // Function to periodically check for new messages
+//       const checkForNewMessages = async () => {
+//        const token = localStorage.getItem('token');
+//        const chatString = localStorage.getItem('grpMessage');
+//        const chatArray = JSON.parse(chatString);
+//        const  groupId = JSON.parse(localStorage.getItem('currentGroupDetail')).groupId
+//        const lastChatItemId = chatArray[chatArray.length - 1].chat_id;
+
+//        // Check if the user is signed in
+//        if (!token) {
+//           return alert('Error: Please sign in again');
+//        }
+//      //   console.log(chatArray , chatString ,'=============')
+//        if (chatArray && chatArray.length > 0) {
+     
+//          try {
+           
+//             const response = await axios.get(`${baseUrl}/group/GroupDetail/get-groups/newchat/${groupId}/${lastChatItemId}`, {
+//                headers: {
+//                   Authorization: `MyAuthHeader ${token}`,
+//                },
+//             });
+//             const { formattedNewMessages } = response.data;
+//             // Update local storage with new messages
+//               // Add new messages to the existing array
+// console.log(formattedNewMessages)
+//               if (formattedNewMessages.length > 0) {
+//                // Update local storage with new messages
+//                const updatedChats = [...chatArray, ...formattedNewMessages];
+//                localStorage.setItem('grpMessage', JSON.stringify(updatedChats));
+             
+//                // Display new messages
+//               displayChats(formattedNewMessages);
+//              }
+ 
+//          } catch (err) {
+//             console.log('Error getting chat list:', err);
+//          }
+//        }
+         
+//     }
    
      // Set up an interval to check for new messages every 5 seconds (adjust as needed)
   //const messageCheckInterval = setInterval(checkForNewMessages, 5000);

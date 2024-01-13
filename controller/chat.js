@@ -8,7 +8,6 @@ const crypto = require('crypto');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-
 const addChatMessage = async (req, res) => {
   try {
     const id = req.user.user_id
@@ -23,7 +22,6 @@ const addChatMessage = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
 
 const  getAllChats = async (req, res ) => {
   try {
@@ -113,8 +111,6 @@ const getNewMessage = async (req, res, next) => {
        imageUrl = await GetObjectUrl(imageName)
        console.log(imageUrl,'===========>nnnxxx')
      }
-
-    
       return {
         chat_id,
         ChatMessage,
@@ -133,9 +129,6 @@ const getNewMessage = async (req, res, next) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
- 
-
 
 const uploadFiles = async (req, res, next) => {
   try {
@@ -156,7 +149,7 @@ const uploadFiles = async (req, res, next) => {
 
 
       // Store file details in the database
-      const userId = 1; // Replace with the actual user ID
+      const userId = req.user.user_id; // Replace with the actual user ID
       const chatMessage = 'my image'; // Adjust this based on your requirements
       const caption = req.body.caption;
  

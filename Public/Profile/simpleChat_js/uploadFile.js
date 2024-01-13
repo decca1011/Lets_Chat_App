@@ -1,7 +1,5 @@
  // Function to handle file upload
 
-
-
  function uploadFile() {
     const token = localStorage.getItem('token');
     const fileInput = document.getElementById('fileUpload');
@@ -12,10 +10,13 @@
         formData.append('file', file);
 
          // Emit the file data to the server using Socket.IO
-         socket.emit("send-file", { body: file.name, user: parseJwt(token).name, type: 'image' });
-
-        // socket.emit("send-file", { body: file, user: parseJwt(token).name, type: 'image' });
-       
+         const reader = new FileReader();
+         reader.onload = function () {
+             const bytes = new Uint8Array(this.result);
+             socket.emit("send-file", { bytes, fileName: file.name, user: parseJwt(token).name, type: 'image' });
+         };
+         reader.readAsArrayBuffer(file);
+        
         // Make Axios request to your backend
         axios.post(`${baseUrl}/chat/upload/file`, formData, {
             headers: {
@@ -65,20 +66,21 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
  
-
-// Function to display chat messages in the UI
-function displayChatsViaSocket(data) {
+socket.on('image', data => {
     const chatList = document.getElementById('messages');
     const messageElement = document.createElement('li');
- 
-    if (data.type === 'image') {
-      
-        const imageUrl = `${baseUrl}/chat/upload/${data.body}`;
 
-        // Create an image element and append it to the message
-        const imgElement = document.createElement('img');
-        imgElement.src = imageUrl;
-        imgElement.alt = 'Image';
+    if (data.type === 'image') {
+        const imgElement = new Image();
+        
+        // Convert the ArrayBuffer to a Uint8Array
+        const byteArray = new Uint8Array(data.bytes);
+
+        // Convert the Uint8Array to a base64 string
+        const base64String = btoa(String.fromCharCode.apply(null, byteArray));
+
+        // Set the src attribute of the image
+        imgElement.src = `data:image/jpg;base64,${base64String}`;
 
         // Add styling for the image message
         if (data.user === parseJwt(localStorage.getItem('token')).name) {
@@ -88,7 +90,38 @@ function displayChatsViaSocket(data) {
         }
 
         messageElement.appendChild(imgElement);
-    }  
+    } else {
+        // Handle other types of messages if needed
+        messageElement.textContent = data.body; // Example: display text messages
+    }
+
+    chatList.appendChild(messageElement);
+});
+
+
+
+
+// Function to display chat messages in the UI
+function displayChatsViaSocket(data) {
+    const chatList = document.getElementById('messages');
+    const messageElement = document.createElement('li');
+
+    if (data.type === 'image') {
+        const imgElement = new Image();
+        imgElement.src = `data:image/jpg;base64,${data.image}`;
+
+        // Add styling for the image message
+        if (data.user === parseJwt(localStorage.getItem('token')).name) {
+            messageElement.classList.add('right'); // Add styling for the current user's messages
+        } else {
+            messageElement.classList.add('left'); // Add styling for other users' messages
+        }
+
+        messageElement.appendChild(imgElement);
+    } else {
+        // Handle other types of messages if needed
+        messageElement.textContent = data.body; // Example: display text messages
+    }
 
     chatList.appendChild(messageElement);
 }

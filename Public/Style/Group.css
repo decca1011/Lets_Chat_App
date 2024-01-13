@@ -27,31 +27,8 @@ position: fixed;
    margin-right: 10px;
 }
 
-/* #chat-container {
-   max-width: 600px;
-   margin: 50px auto;
-   background-color: whitesmoke;
-   color: red;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   border-radius: 5px;
-   padding: 40px;
-} */
-
- /* General styling for the chat container */
-.chat-container {
-   max-width: 600px;
-   margin: 20px auto;
-   background-color: whitesmoke;
-   color: #333;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   border-radius: 5px;
-   padding: 20px;
-   position: fixed;
-   bottom: 0;
-   left: 50%;
-   transform: translateX(-50%);
-   z-index: 1;
-}
+ 
+ 
 
 /* Styling for the group header */
 .group-header {
@@ -105,16 +82,88 @@ position: fixed;
    margin-top: 10px; /* Add margin at the top of the messages */
 }
 
+
+ /* Your existing styles go here */
+
+.slider {
+   position: fixed;
+   top: 21%; /* Adjust the top position based on your header height */
+   right: 0;
+   width: 70%;
+   height: 90%;
+   display: flex;
+}
+
+.left {
+   flex: 1;
+   background: none; /* No need for background in the left side */
+}
+
+.right {
+   flex: 9;
+   background: #e5e8daf3; /* Set the background color for the group chat section */
+   overflow-y: auto; /* Add a scrollbar if needed */
+   padding: 20px; /* Adjust padding as needed */
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+   position: relative; /* Position relative for absolute positioning within */
+}
+
+.chat-container {
+   max-width: 600px;
+   margin: 0 auto; /* Center the chat content horizontally */
+   background-color: rgba(209, 205, 178, 0.807);
+   color: #333;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   border-radius: 5px;
+   padding: 20px;
+   position: absolute; /* Position absolutely within .right */
+  top: 10%;
+   left: 10%;
+   z-index: 0;
+   overflow-y: auto; /* Add vertical scrollbar when content exceeds container height */
+   max-height: 300px; /* Set a max height for the container */
+}
+.chat-content {
+   max-width: 600px;
+   margin: 0 auto; /* Center the chat content horizontally */
+   background-color: rgba(209, 205, 178, 0.807);
+   color: #333;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   border-radius: 5px;
+   padding: 20px;
+   position: absolute; /* Position absolutely within .right */
+   top: 10%;
+   left: 10%;
+   z-index: 0;
+   overflow-y: auto; /* Add vertical scrollbar when content exceeds container height */
+   max-height: 300px; /* Set a max height for the container */
+}
+
+/* Ensure that the container is always scrolled to the bottom */
+.chat-content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chat-content ul li:last-child {
+  margin-bottom: 0;
+}
+
+
 .message-input {
    display: flex;
    align-items: center;
    margin-top: 10px;
+   z-index: 1;
 }
 
 #messageInput {
    width: 80%;
    padding: 10px;
    margin-right: 10px;
+   z-index: 1;
 }
 
 #send-button {
@@ -123,8 +172,28 @@ position: fixed;
    border: none;
    cursor: pointer;
    padding: 10px;
+   z-index: 1;
 }
 
 #send-button:hover {
    background-color: #0056b3;
 }
+
+
+#chat-content {
+   overflow-y: auto;
+   flex: 1;
+ }
+ 
+ #messages {
+   margin: 0;
+   padding: 0;
+   list-style: none;
+ }
+ 
+ /* Add this style to the last message in the list */
+ #messages li:last-child {
+   margin-bottom: 0; /* Remove any bottom margin from the last message */
+ }
+
+/* Rest of your styles... */

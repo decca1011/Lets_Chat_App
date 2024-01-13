@@ -80,21 +80,22 @@
                         <ul id="users"></ul>
                     </div>
                     <div id="chat-container" class="chat-container" style="display: none;">
-                    <div id="chat-content"><ul id="messages"></ul></div>
-                    <div class="message-input">
-                        <input type="text" id="messageInput" placeholder="Type your message...">
-                        <button id="send-button" onclick="sendChat(event)">Send</button>
-                        <form id="fileForm" enctype="multipart/form-data" style="display:flex;">
-                            <label for="fileUpload">
-                                <i class="fa fa-paperclip" aria-hidden="true"></i>
-                                <span>Attach File</span>
-                            </label>
-                            <input type="file" id="fileUpload" accept=".jpg,.png,.gif" />
-                            <button type="button" onclick="uploadFile()" id="uploadButton" style="display:none; width: 300px;">Upload</button>
-                        </form>
+                    <div id="chat-content">
+                        <ul id="messages"></ul>
+                        <div class="message-input">
+                            <input type="text" id="messageInput" placeholder="Type your message...">
+                            <button id="send-button" onclick="sendChat(event)">Send</button>
+                            <form id="fileForm" enctype="multipart/form-data" style="display:flex;">
+                                <label for="fileUpload">
+                                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                    <span>Attach File</span>
+                                </label>
+                                <input type="file" id="fileUpload" accept=".jpg,.png,.gif" />
+                                <button type="button" onclick="uploadFile()" id="uploadButton" style="display:none; width: 300px;">Upload</button>
+                            </form>
+                        </div>
                     </div>
-                   </div>
-                
+                </div>
             </section>
         </div>
     </div>

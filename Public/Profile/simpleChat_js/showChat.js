@@ -1,3 +1,17 @@
+socket.on('connect', () => {
+   console.log(`Connected with socket ID: ${socket.id}`);
+});
+
+// Separate handling for 'socket-id' event
+socket.on('socket-id', (data) => {
+   // This line should not be here. It was included by mistake.
+   // displayChatsViaSocket({ user: 'System', body: `Connected with socket ID: ${data.socketId}`, event: 'user-join' });
+});
+
+// Handling the 'user-join' event
+socket.on('user-join', (data) => {
+   console.log(`User joined: ${data.user}`);
+});
 
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -105,11 +119,7 @@ function displayChats(chats) {
       }
         
    }
-   socket.on('receive-file', async (data) => {
-
-      console.log(data)
-    checkForNewMessages()
-  });
+ 
  
     // Set up an interval to check for new messages every 5 seconds (adjust as needed)
   //const messageCheckInterval = setInterval(checkForNewMessages, 1000);

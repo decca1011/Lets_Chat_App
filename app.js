@@ -6,13 +6,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const morgan = require('morgan');
 const app = express(); 
-const formidable = require('formidable');
-const multer = require('multer');
-const sharp = require('sharp');
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage });
-
-
+ 
 const io = require('socket.io')(app.listen(3000), { cors: true}); 
 require('dotenv').config();
  
@@ -55,17 +49,6 @@ groupDetail.belongsToMany(user, { through: groupMember});
 groupDetail.hasMany(chat);
 chat.belongsTo(groupDetail);
 
- //Set storage engine
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, 'uploads/');
-//     },
-//     filename: function (req, file, cb) {
-//         // Change the filename to include the original file extension
-//         const ext = path.extname(file.originalname);
-//         cb(null, `${file.fieldname}-${Date.now()}${ext}`);
-//     }
-// });
  
 
 // Use compression middleware
@@ -99,28 +82,38 @@ io.on('connection', socket => {
         console.log("ssss====>" ,data)
         io.emit('receive-message', data);
     });
- 
-    socket.on('send-image',async  (data) => {
-       
-        const buffer = await sharp(file.buffer).resize({ height: 1920, width: 1080, fit: 'contain' }).toBuffer();
-     
-        io.emit('image-received', { user, type: imageData.type });
+
+    socket.on('send-file', (data) => {
+        socket.emit('image', { bytes: data.bytes, fileName: data.fileName, user: data.user, type: 'image' });
+        socket.broadcast.emit('image', { bytes: data.bytes, fileName: data.fileName, user: data.user, type: 'image' });
     });
-
-   
-
-    socket.on('newMember', (data => {
-        io.emit('addNewUser', data);
-    }))
-    socket.on('setAdmin', (data => {
-        io.emit('setAdmin', data);
-    }))
-    socket.on('removeMember', (data => {
-        io.emit('removeMember', data);
-    }))
-    socket.on('setMessagefalse', (data => {
-        io.emit('setMessagefalse', data);
-    }))
 
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// socket.on('newMember', (data => {
+//     io.emit('addNewUser', data);
+// }))
+// socket.on('setAdmin', (data => {
+//     io.emit('setAdmin', data);
+// }))
+// socket.on('removeMember', (data => {
+//     io.emit('removeMember', data);
+// }))
+// socket.on('setMessagefalse', (data => {
+//     io.emit('setMessagefalse', data);
+// }))

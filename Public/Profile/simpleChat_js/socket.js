@@ -1,18 +1,4 @@
 
-socket.on('connect', (data) => {
-    console.log(`Connected with socket ID: ${socket.id}`);
-});
-
-socket.on('socket-id', (data) => {
-    // Display the connected socket ID
-    displayChatsViaSocket({ user: 'System', body: `Connected with socket ID: ${data.socketId}`, event: 'user-join' });
-});
-
-socket.on('receive-message', (data) => {
-    displayChatsViaSocket(data); 
-});
-
-
 const sendChat = async (event) => {
     event.preventDefault();
     const token = localStorage.getItem('token');
@@ -45,16 +31,14 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
- // Function to display chat messages in the UI
-function displayChatsViaSocket(data) {
+
+
+socket.on('receive-message', (data) => {
+    console.log('running', data)
     const chatList = document.getElementById('messages');
     const messageElement = document.createElement('li');
 
-    if (data.event === 'user-join') {
-    // Display a message when a new user joins
-    messageElement.textContent = `${data.body}`;
-    messageElement.classList.add('join-message'); // Add specific styling for join messages
-    } else {
+    
         const userName = data.user || 'Unknown User';
         const messageBody = data.body || '';
 
@@ -65,9 +49,8 @@ function displayChatsViaSocket(data) {
         } else {
             messageElement.classList.add('left'); // Add styling for other users' messages
         }
-    }
+    
 
     chatList.appendChild(messageElement);
-}
-
+})
 

@@ -14,7 +14,7 @@ router.get('/:lastChatItemId',Authenticated , ChatController.getNewMessage);
 
  
 router.post('/upload/file', Authenticated,ChatController.uploadFiles)
-
+ 
  
 
 module.exports = router;
