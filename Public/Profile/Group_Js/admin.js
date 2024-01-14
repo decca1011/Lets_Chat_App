@@ -4,6 +4,8 @@
  const forAdmin = document.getElementById('forAdmin')
 
  const chatContent = document.getElementById('chat-content');
+ const chatContainer = document.getElementById('chat-container');
+
  const adminForm = document.getElementById('admin-form');
 
  const adminControlDiv = document.getElementById('admincontrol');
@@ -19,7 +21,8 @@ showUserListforAdminToadd()
   console.log(getUserList)
   // Clear the admincontrol div before appending the user list
   adminControlDiv.innerHTML = '';
- chatContent.style.display = "none";
+ chatContainer.style.display = "none";
+ 
   forAdmin.style.display = 'none';
   addMemberInGroup.style.display = "block";
  
@@ -142,8 +145,7 @@ console.log(groupId)
        // Clear the admincontrol div before appending the user list
        adminControlDiv.innerHTML = '';
 
-    
-       chatContent.style.display = "none";
+       chatContainer.style.display = "none";
        forAdmin.style.display = 'none';
        makeMemberAdmin.style.display = "block";
       
@@ -268,9 +270,8 @@ removeGroupUser.addEventListener('click', async () => {
 
     // Clear the admincontrol div before appending the user list
     adminControlDiv.innerHTML = '';
- 
+    chatContainer.style.display = "none";
     forAdmin.style.display = 'none';
-    chatContent.style.display = "none";
     removeMember.style.display = "block";
 
     if (getUserList.length > 0) {

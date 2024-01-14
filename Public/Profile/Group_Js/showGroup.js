@@ -1,9 +1,4 @@
 const getGroupButton = document.getElementById("some");
- 
-
-const chatContainer = document.getElementById('chat-container')
-// Scroll to the bottom
-chatContainer.scrollTop = chatContainer.scrollHeight;
   const callGrp = async (event) => {
    event.preventDefault();
    try {
@@ -48,7 +43,7 @@ var groups = document.getElementById('groups')
  };
 
  async function fetchGroup(event, group) {
-   chatContainer.style.display = 'block';
+document.getElementById('chat-container').style.display = 'block';
    event.preventDefault();
    const { groupId, groupName } = group;
    document.getElementById("grpName").innerHTML = "<span style='color: Black;'>" + groupName + " </span>";
@@ -83,7 +78,7 @@ var groups = document.getElementById('groups')
        // Display new messages
        displayChats(formattedChats);
      // Scroll to the bottom after displaying messages
-     scrollChatToBottom();
+    
      } catch (error) {
        console.log('Error getting chat list:', error);
      }
@@ -131,20 +126,10 @@ function displayChats(chats) {
 
     chatList.appendChild(messageElement);
   });
-
-  // Ensure the last message is visible by scrolling into view
-  const lastMessage = chatList.lastChild;
-  if (lastMessage) {
-    lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-  }
+ 
 }
 
-
-// Call this function after fetching and displaying new messages
-function scrollToBottom() {
-  const chatContainer = document.getElementById('chat-content');
-  chatContainer.scrollTop = chatContainer.scrollHeight;
-}
+ 
 
     
 //       // Function to periodically check for new messages

@@ -5,11 +5,13 @@ const  fs = require('fs')
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const morgan = require('morgan');
-const app = express(); 
- 
+const app = express();
 const io = require('socket.io')(app.listen(3000), { cors: true}); 
 require('dotenv').config();
- 
+const { CronJob } = require('cron');
+const ArchivedChat = require('./models/archievedChat');
+const { archiveChats } = require('./services/archivedChat'); 
+
 app.use(cors({
     origin: "http://localhost:3000", // Allowed origin
     origin: "*", // Allowed origin
@@ -49,7 +51,17 @@ groupDetail.belongsToMany(user, { through: groupMember});
 groupDetail.hasMany(chat);
 chat.belongsTo(groupDetail);
 
- 
+// Define the archiving cron job
+const archiveChatJob = new CronJob(
+    '*/1 * * * *', // Run every minute
+    archiveChats,
+    null,
+    true,
+    'UTC'
+  );
+
+  archiveChatJob.start();
+  console.log('Chat archiving job started.');
 
 // Use compression middleware
 app.use(compression());

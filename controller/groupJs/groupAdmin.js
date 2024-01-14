@@ -29,7 +29,7 @@ const showUserListforAdminToadd = async (req ,res) => {
         }
       }
     })
-  
+  console.log(nonGroupUser)
     if (nonGroupUser.length > 0) {
            res.status(200).json({ message: 'User is an admin', getUserList: nonGroupUser });
     } else {
@@ -94,6 +94,7 @@ const getNonAdminMember = async (req, res) => {
         },
       });
 
+      console.log(nonAdminMembers)
       if (nonAdminMembers.length > 0) {
         const nonAdminUserIds = nonAdminMembers.map((member) => member.UserUserId);
         const nonAdminUsers = await getMemberDetails(nonAdminUserIds);
