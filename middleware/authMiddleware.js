@@ -23,6 +23,8 @@ const user = jwt.verify( token , JWT_SECRET);
    return res.status(401).json({ message: 'Authentication failed: User not found' });
  }
  req.user = foundUser;
+
+// console.log(req.user)
  
  next();
 } 

@@ -1,0 +1,133 @@
+ /* Reset default styles and set the background */
+body {
+   font-family: Arial, sans-serif;
+   background-color: #baab098c;
+   margin: 0;
+   padding: 0;
+}
+
+/* Header styles */
+header {
+   background-color: #0b6e00;
+   color: #eee5e5e4;
+   text-align: center;
+   padding: 20px 0;
+}
+
+header h1 {
+   font-size: 26px;
+}
+
+/* Main content container */
+main {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 50vh;
+}
+
+/* Form container styles */
+.container, #forgot-password-modal {
+   background-color: #fff;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+   border-radius: 5px;
+   overflow: hidden;
+   width: 400px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 15px;
+   margin-top: 10%;
+}
+
+/* Common styles for links and headings */
+a, h2 {
+   font-size: 20px;
+   margin-bottom: 16px;
+   color: #3009f5;
+}
+
+/* Hover effect for links */
+a:hover {
+   font-size: 20px;
+   margin-bottom: 20px;
+   color: #d91b1b;
+}
+
+/* Form group styles */
+.form-group {
+   margin-bottom: 10px;
+   width: 100%;
+}
+
+label {
+   font-weight: bold;
+   display: block;
+   color: #333;
+}
+
+/* Input styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+   width: 90%;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+}
+
+/* Button styles */
+button {
+   padding: 10px 20px;
+   background-color: #0991FF;
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   width: 100%;
+   margin-top: 10px;
+}
+
+.btn-signup-toggle {
+   width: 150px;      
+}
+
+/* Hover effect for buttons and sign-up toggle */
+.btn-signup-toggle:hover,
+.btn-signin:hover,
+.btn-signup:hover {
+   background-color: #00B9F1;
+}
+
+/* Footer styles */
+footer {
+   text-align: center;
+   background-color: #c822ff;
+   color: #fff;
+   padding: 20px;
+   margin-top: 100%;
+   margin-bottom: 0%;
+   height: 60%;
+}
+
+/* Footer links and list styles */
+footer a {
+   text-decoration: none;
+   color: #fff;
+}
+
+footer ul {
+   padding: 0;
+   list-style: none;
+}
+
+footer ul li {
+   display: inline;
+   margin: 0 10px;
+}
+
+footer p {
+   margin-top: 10px;
+   font-size: 14px;
+}

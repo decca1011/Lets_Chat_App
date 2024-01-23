@@ -1,16 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const  fs = require('fs')
 const bodyParser = require('body-parser');
 const compression = require('compression');
-const morgan = require('morgan');
 const app = express();
-const io = require('socket.io')(app.listen(3000), { cors: true}); 
 require('dotenv').config();
+
 const { CronJob } = require('cron');
-const ArchivedChat = require('./models/archievedChat');
-const { archiveChats } = require('./services/archivedChat'); 
+const { ArchiveChats } = require('./services/archived-chat'); 
+
+const io = require('socket.io')(app.listen(process.env.PORT), { cors: true}); 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors({
     origin: "http://localhost:3000", // Allowed origin
@@ -19,63 +21,54 @@ app.use(cors({
     credentials: true // Whether the request can include user credentials like cookies, authorization headers, or TLS client certificates.
 }));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+const sequelize = require('./utils/database');
 
-const sequelize = require('./util/database');
-// Import the User_Login router
-const User_Login = require('./router/user');
-const Chat_Add= require('./router/chat');
-const Group_List= require('./router/group');
+const userLogin= require('./routes/user'); 
+const chatAdd= require('./routes/chat');
+const groupList= require('./routes/group');
 
-const user  = require('./models/user');
-const chat = require('./models/chat');
-const groupDetail = require('./models/groupDetail');
-const groupMember = require('./models/groupMember');
+const User  = require('./models/user');
+const Chat = require('./models/chat');
+const GroupDetail = require('./models/group-detail');
+const GroupMember = require('./models/group-member');
  
+app.use('/post', userLogin);  // Use the User_Login router for the '/post' route
+app.use('/chat', chatAdd);
+app.use('/group', groupList);
 
-// Use the User_Login router for the '/post' route
-app.use('/post', User_Login);
-app.use('/chat', Chat_Add);
-app.use('/group', Group_List);
 
-//user has many chat where chat belong to one user
-user.hasMany(chat);
-chat.belongsTo(user);
+User.hasMany(Chat);  
+Chat.belongsTo(User);
 
-//one user hve many group & group contain many group member. 
-user.belongsToMany(groupDetail, { through: groupMember });
-groupDetail.belongsToMany(user, { through: groupMember});
 
-// one message belong to on particular group and one group can have multiple message.
-groupDetail.hasMany(chat);
-chat.belongsTo(groupDetail);
+User.belongsToMany(GroupDetail, { through: GroupMember });  //one user hve many group & group contain many group member. 
+GroupDetail.belongsToMany(User, { through: GroupMember});
 
-// Define the archiving cron job
-const archiveChatJob = new CronJob(
-    '*/1 * * * *', // Run every minute
-    archiveChats,
+
+GroupDetail.hasMany(Chat);  // one message belong to on particular group and one group can have multiple message.
+Chat.belongsTo(GroupDetail);
+
+
+const archiveChatJob = new CronJob(    // Define the archiving cron job
+    '*/1 * * * *', 
+    ArchiveChats,
     null,
     true,
     'UTC'
   );
 
-  archiveChatJob.start();
-  console.log('Chat archiving job started.');
+ archiveChatJob.start();
+ 
 
-// Use compression middleware
-app.use(compression());
-const accessLogStream = fs.createWriteStream(path.join(__dirname,'acess.log'),{flag: 'a'})
-//app.use(helmet());
-app.use(morgan('combined', {stream: accessLogStream}) );
+app.use(compression());   // Use compression middleware
 
 app.use(function(req ,res){res.sendFile(path.join(__dirname, 'Public', req.url)); });
 
-// Start the server on port 3000
+ 
 sequelize.sync()
 .then(() => {
-    app.listen( process.env.PORT, () => {
-        console.log('Server is running on port 3000');
+    app.listen( () => {
+        console.log(`Server is running on port ${process.env.PORT}` );
     });
 })
 .catch(err => console.log(err));
@@ -112,9 +105,9 @@ io.on('connection', socket => {
 
 
 
-
-
-
+// const accessLogStream = fs.createWriteStream(path.join(__dirname,'acess.log'),{flag: 'a'})
+//app.use(helmet());
+// app.use(morgan('combined', {stream: accessLogStream}) );
 
 
 // socket.on('newMember', (data => {

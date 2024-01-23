@@ -1,45 +1,31 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../util/database')
-
-
+const sequelize = require('../utils/database')
 // Define the 'User' model
-const User = sequelize.define('User', {
-    // Primary key with auto-increment
-    user_id: {
+const User = sequelize.define('user', {  
+    id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
-        primaryKey: true
-    },
-    
-    // User's username
-    user_name: Sequelize.STRING,
-
-    // User's email address
-    user_email_id: {
+        primaryKey: true,
+      },
+    name: Sequelize.STRING,
+       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
         validate: {
-            isEmail: true // Validate that the email is in the correct format
+            isEmail: true 
         },
     },
-
-    // User's password
-    user_password: Sequelize.STRING,
-
-    // User's mobile number
-    user_mobile_no: {
+    password: Sequelize.STRING,
+     mobileNo: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
         validate: {
-            isMobilePhone: true // Validate that the mobile number is in the correct format
+            isMobilePhone: true  
         },
     }
 });
-
-// Sync the model with the database
-// sequelize.sync({ force: true }); // Uncomment this line if you want to force sync and recreate the table
 
 module.exports = User;
